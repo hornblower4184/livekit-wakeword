@@ -84,8 +84,14 @@ class WakeWordModel:
         if model_name is None:
             model_name = model_path.stem
 
+        options = ort.SessionOptions()
+        options.intra_op_num_threads = 1
+        options.inter_op_num_threads = 1
+        options.execution_mode = ort.ExecutionMode.ORT_SEQUENTIAL
+        
         session = ort.InferenceSession(
             str(model_path),
+            sess_options=options,
             providers=["CPUExecutionProvider"],
         )
         input_name = session.get_inputs()[0].name
