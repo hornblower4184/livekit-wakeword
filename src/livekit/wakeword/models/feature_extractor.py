@@ -39,8 +39,14 @@ class MelSpectrogramFrontend:
     def _init_onnx(self, onnx_path: str | Path) -> None:
         import onnxruntime as ort
 
+        options = ort.SessionOptions()
+        options.intra_op_num_threads = 1
+        options.inter_op_num_threads = 1
+        options.execution_mode = ort.ExecutionMode.ORT_SEQUENTIAL
+        
         self._onnx_session = ort.InferenceSession(
             str(onnx_path),
+            sess_options=options,
             providers=["CPUExecutionProvider"],
         )
         self._input_name = self._onnx_session.get_inputs()[0].name
@@ -98,8 +104,14 @@ class SpeechEmbedding:
                 "This should not happen - please reinstall livekit-wakeword."
             )
 
+        options = ort.SessionOptions()
+        options.intra_op_num_threads = 1
+        options.inter_op_num_threads = 1
+        options.execution_mode = ort.ExecutionMode.ORT_SEQUENTIAL
+        
         self._session = ort.InferenceSession(
             str(onnx_path),
+            sess_options=options,
             providers=["CPUExecutionProvider"],
         )
         self._input_name = self._session.get_inputs()[0].name
