@@ -16,7 +16,7 @@ from .model import WakeWordModel
 logger = logging.getLogger(__name__)
 
 SAMPLE_RATE = 16000
-FRAME_SAMPLES = 4200  # 000ms per frame
+FRAME_SAMPLES = 4000  # 250ms per frame
 CHUNK_SECONDS = 2.0
 # Number of frames that fill a ~2-second chunk (25 × 80ms = 2000ms)
 CHUNK_FRAMES = int(CHUNK_SECONDS * SAMPLE_RATE / FRAME_SAMPLES)
