@@ -173,11 +173,14 @@ class WakeWordListener:
 
                 # Build the audio chunk and run inference in executor
                 chunk = np.concatenate(list(self._frame_buffer))
+                
+                t = time.monotonic()
                 scores = await loop.run_in_executor(
                     self._executor,
                     self._model.predict,
                     chunk,
                 )
+                print("predict:", time.monotonic() - t)
                 if not self._running:
                     break
 
